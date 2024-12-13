@@ -13,7 +13,13 @@
             <input type="text" id="result" placeholder="0" disabled>
         </div>
 
-        <!-- Buttons (including Delete and Clear buttons) -->
+        <!-- History Section -->
+        <div class="history-section">
+            <div id="history"></div>
+            <button class="clear-history-btn" onclick="clearHistory()">Clear History</button>
+        </div>
+
+        <!-- Buttons -->
         <div class="buttons basic-buttons">
             <button onclick="appendValue('7')">7</button>
             <button onclick="appendValue('8')">8</button>
@@ -34,15 +40,6 @@
             <button onclick="appendValue('0')">0</button>
             <button onclick="calculate()">=</button>
             <button onclick="appendValue('+')">+</button>
-
-            <!-- Clear and Delete buttons added -->
-            <button onclick="clearDisplay()">Clear</button>
-            <button onclick="deleteLast()">Delete</button>
-        </div>
-
-        <!-- History Section Moved Beside -->
-        <div class="history-section">
-            <div id="history"></div>
         </div>
 
         <!-- Menu Toggle Button -->
@@ -79,6 +76,9 @@
             <button onclick="appendValue('**3')">x³</button>
             <button onclick="appendValue('**')">xʸ</button>
             <button onclick="appendValue('%')">%</button>
+
+            <button onclick="clearDisplay()">AC</button>
+            <button onclick="deleteLast()">DEL</button>
         </div>
     </div>
 
