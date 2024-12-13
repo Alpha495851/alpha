@@ -4,81 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Calculator</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body oncontextmenu="return false">
+<body>
     <div class="calculator">
-        <!-- Display -->
-        <div class="display">
-            <input type="text" id="result" placeholder="0" disabled>
+        <!-- Header with Menu Button -->
+        <div class="header">
+            <button class="menu" onclick="toggleMenu()">☰</button>
+            <button class="clear-history" onclick="clearHistory()">Clear History</button>
         </div>
+        
+        <!-- Display Section -->
+        <input type="text" id="result" class="display" disabled />
 
-        <!-- History Section -->
-        <div class="history-section">
-            <div id="history"></div>
-            <button class="clear-history-btn" onclick="clearHistory()">Clear History</button>
-        </div>
+        <!-- Basic Buttons (Normal Calculator Layout) -->
+        <div class="buttons">
+            <button onclick="clearDisplay()">C</button>
+            <button onclick="deleteLast()">DEL</button>
+            <button onclick="appendValue('/')">÷</button>
+            <button onclick="appendValue('*')">×</button>
 
-        <!-- Buttons -->
-        <div class="buttons basic-buttons">
             <button onclick="appendValue('7')">7</button>
             <button onclick="appendValue('8')">8</button>
             <button onclick="appendValue('9')">9</button>
-            <button onclick="appendValue('/')">÷</button>
+            <button onclick="appendValue('-')">-</button>
 
             <button onclick="appendValue('4')">4</button>
             <button onclick="appendValue('5')">5</button>
             <button onclick="appendValue('6')">6</button>
-            <button onclick="appendValue('*')">×</button>
+            <button onclick="appendValue('+')">+</button>
 
             <button onclick="appendValue('1')">1</button>
             <button onclick="appendValue('2')">2</button>
             <button onclick="appendValue('3')">3</button>
-            <button onclick="appendValue('-')">−</button>
-
-            <button onclick="appendValue('.')">.</button>
-            <button onclick="appendValue('0')">0</button>
             <button onclick="calculate()">=</button>
-            <button onclick="appendValue('+')">+</button>
+
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="appendValue('.')">.</button>
         </div>
 
-        <!-- Menu Toggle Button -->
-        <button class="menu-btn" onclick="toggleMenu()">Menu</button>
-
-        <!-- Advanced Buttons (Initially Hidden) -->
-        <div class="buttons advanced-buttons" id="advanced-buttons">
-            <button onclick="toggleDegRad()">Deg</button>
-            <button onclick="appendValue('(')">(</button>
-            <button onclick="appendValue(')')">)</button>
-            <button onclick="appendValue('10**')">10ˣ</button>
-
-            <button onclick="memoryClear()">MC</button>
-            <button onclick="memoryAdd()">M+</button>
-            <button onclick="memorySubtract()">M-</button>
-            <button onclick="memoryRecall()">MR</button>
-
-            <button onclick="appendValue('Math.sqrt(')">√</button>
-            <button onclick="appendValue('Math.cbrt(')">∛</button>
+        <!-- Advanced Calculator Buttons (Initially Hidden under Menu) -->
+        <div id="advanced-buttons" class="advanced-buttons">
+            <button onclick="appendValue('sin(')">sin</button>
+            <button onclick="appendValue('cos(')">cos</button>
+            <button onclick="appendValue('tan(')">tan</button>
+            <button onclick="appendValue('sqrt(')">√</button>
+            <button onclick="appendValue('Math.cbrt(')">³√</button>
+            <button onclick="appendValue('x**2')">x²</button>
+            <button onclick="appendValue('x**3')">x³</button>
+            <button onclick="appendValue('Math.PI')">π</button>
+            <button onclick="appendValue('Math.E')">e</button>
             <button onclick="appendValue('Math.log10(')">lg</button>
             <button onclick="appendValue('Math.log(')">ln</button>
-
-            <button onclick="appendTrig('Math.sin')">sin</button>
-            <button onclick="appendTrig('Math.cos')">cos</button>
-            <button onclick="appendTrig('Math.tan')">tan</button>
-            <button onclick="appendValue('Math.exp(')">eˣ</button>
-
-            <button onclick="appendTrig('Math.sinh')">sinh</button>
-            <button onclick="appendTrig('Math.cosh')">cosh</button>
-            <button onclick="appendTrig('Math.tanh')">tanh</button>
-            <button onclick="appendValue('Math.PI')">π</button>
-
-            <button onclick="appendValue('**2')">x²</button>
-            <button onclick="appendValue('**3')">x³</button>
-            <button onclick="appendValue('**')">xʸ</button>
+            <button onclick="appendValue('(')">(</button>
+            <button onclick="appendValue(')')">)</button>
             <button onclick="appendValue('%')">%</button>
+        </div>
 
-            <button onclick="clearDisplay()">AC</button>
-            <button onclick="deleteLast()">DEL</button>
+        <!-- Calculation History -->
+        <div id="history" class="history">
+            <!-- History of calculations will be displayed here -->
         </div>
     </div>
 
