@@ -1,0 +1,91 @@
+body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+}
+
+.calculator {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    overflow: hidden;
+}
+
+.display {
+    background: #f4f4f4;
+    font-size: 2rem;
+    text-align: right;
+    padding: 20px;
+    color: black;
+    border-bottom: 1px solid #ddd;
+}
+
+.display input {
+    width: 100%;
+    border: none;
+    background: none;
+    font-size: 2rem;
+    text-align: right;
+    color: black;
+    outline: none;
+}
+
+.menu-toggle button {
+    width: 100%;
+    padding: 10px;
+    background: #ff8c42;
+    color: white;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    outline: none;
+    border-bottom: 1px solid #ddd;
+}
+
+.menu {
+    display: none;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    padding: 10px;
+    background: #ddd;
+}
+
+.menu button {
+    padding: 15px;
+    font-size: 1rem;
+    border: none;
+    background: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.menu button:hover {
+    background: #f0f0f0;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    padding: 10px;
+    background: #ddd;
+}
+
+.buttons button {
+    font-size: 1.5rem;
+    border: none;
+    outline: none;
+    padding: 20px;
+    background: white;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.buttons button:hover {
+    background: #f0f0f0;
+}
