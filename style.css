@@ -1,26 +1,26 @@
 /* General Body Styling */
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: #121212;
+    background-color: black;
+    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    color: white;
 }
 
 .calculator {
-    background-color: #1e1e1e;
+    background-color: black;
     border-radius: 15px;
     width: 340px;
     padding: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 5px 15px rgba(255, 255, 0, 0.5);
 }
 
 /* Display Styling */
 .display {
-    background-color: #292929;
+    background-color: #1a1a1a;
     padding: 10px;
     border-radius: 10px;
     margin-bottom: 15px;
@@ -30,7 +30,7 @@ body {
     width: 100%;
     background: none;
     border: none;
-    color: white;
+    color: yellow;
     font-size: 2rem;
     text-align: right;
     outline: none;
@@ -38,7 +38,7 @@ body {
 
 /* History Section Styling */
 .history-section {
-    background-color: #292929;
+    background-color: #1a1a1a;
     margin-bottom: 15px;
     padding: 10px;
     border-radius: 10px;
@@ -48,25 +48,22 @@ body {
 
 .history-section #history {
     font-size: 0.9rem;
-    color: white;
+    color: yellow;
     line-height: 1.5;
-    margin-bottom: 10px;
 }
 
 .history-section .clear-history-btn {
-    background-color: #424242;
+    background-color: #333;
     border: none;
     padding: 8px;
     font-size: 0.8rem;
     border-radius: 6px;
-    color: white;
+    color: yellow;
     cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s;
 }
 
 .history-section .clear-history-btn:hover {
-    background-color: #616161;
+    background-color: #555;
 }
 
 /* Buttons Styling */
@@ -77,17 +74,40 @@ body {
 }
 
 .buttons button {
-    background-color: #424242;
+    background-color: #333;
     border: none;
     padding: 15px;
     font-size: 1rem;
     border-radius: 10px;
-    color: white;
+    color: yellow;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s;
 }
 
 .buttons button:hover {
-    background-color: #616161;
+    background-color: #555;
     transform: scale(1.05);
+}
+
+/* Menu Button */
+.menu-btn {
+    background-color: #ffcc00;
+    border: none;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+    width: 100%;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.menu-btn:hover {
+    background-color: #ffaa00;
+}
+
+/* Advanced Buttons Initially Hidden */
+.advanced-buttons {
+    display: none;
 }
