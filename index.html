@@ -47,40 +47,41 @@
 
         <!-- Advanced Buttons (Initially Hidden) -->
         <div class="buttons advanced-buttons" id="advanced-buttons">
-            <button onclick="toggleDegRad()">Deg</button>
-            <button onclick="appendValue('(')">(</button>
-            <button onclick="appendValue(')')">)</button>
-            <button onclick="appendValue('10**')">10ˣ</button>
+    <button onclick="toggleDegRad()">Deg</button>
+    <button onclick="appendValue('(')">(</button>
+    <button onclick="appendValue(')')">)</button>
+    <button onclick="appendValue('10**')">10ˣ</button>
 
-            <button onclick="memoryClear()">MC</button>
-            <button onclick="memoryAdd()">M+</button>
-            <button onclick="memorySubtract()">M-</button>
-            <button onclick="memoryRecall()">MR</button>
+    <button onclick="memoryClear()">MC</button>
+    <button onclick="memoryAdd()">M+</button>
+    <button onclick="memorySubtract()">M-</button>
+    <button onclick="memoryRecall()">MR</button>
 
-            <button onclick="appendValue('Math.sqrt(')">√</button>
-            <button onclick="appendValue('Math.cbrt(')">∛</button>
-            <button onclick="appendValue('Math.log10(')">lg</button>
-            <button onclick="appendValue('Math.log(')">ln</button>
+    <!-- Updated buttons to show symbols -->
+    <button onclick="appendSymbol('√')">√</button>
+    <button onclick="appendSymbol('∛')">∛</button>
+    <button onclick="appendSymbol('lg')">lg</button>
+    <button onclick="appendSymbol('ln')">ln</button>
 
-            <button onclick="appendTrig('Math.sin')">sin</button>
-            <button onclick="appendTrig('Math.cos')">cos</button>
-            <button onclick="appendTrig('Math.tan')">tan</button>
-            <button onclick="appendValue('Math.exp(')">eˣ</button>
+    <button onclick="appendSymbol('sin')">sin</button>
+    <button onclick="appendSymbol('cos')">cos</button>
+    <button onclick="appendSymbol('tan')">tan</button>
+    <button onclick="appendSymbol('eˣ')">eˣ</button>
 
-            <button onclick="appendTrig('Math.sinh')">sinh</button>
-            <button onclick="appendTrig('Math.cosh')">cosh</button>
-            <button onclick="appendTrig('Math.tanh')">tanh</button>
-            <button onclick="appendValue('Math.PI')">π</button>
+    <button onclick="appendSymbol('sinh')">sinh</button>
+    <button onclick="appendSymbol('cosh')">cosh</button>
+    <button onclick="appendSymbol('tanh')">tanh</button>
+    <button onclick="appendSymbol('π')">π</button>
 
-            <button onclick="appendValue('**2')">x²</button>
-            <button onclick="appendValue('**3')">x³</button>
-            <button onclick="appendValue('**')">xʸ</button>
-            <button onclick="appendValue('%')">%</button>
+    <button onclick="appendValue('**2')">x²</button>
+    <button onclick="appendValue('**3')">x³</button>
+    <button onclick="appendValue('**')">xʸ</button>
+    <button onclick="appendValue('%')">%</button>
 
-            <button onclick="clearDisplay()">AC</button>
-            <button onclick="deleteLast()">DEL</button>
+    <button onclick="clearDisplay()">AC</button>
+    <button onclick="deleteLast()">DEL</button>
         </div>
-    </div>
+                
 
     <script src="script.js"></script>
 </body>
