@@ -1,51 +1,49 @@
+let currentCalculation = '';
 let history = [];
 
-// Append value to the input field
 function appendValue(value) {
-    document.getElementById("result").value += value;
+    currentCalculation += value;
+    document.getElementById('result').value = currentCalculation;
 }
 
-// Perform calculation
+function clearDisplay() {
+    currentCalculation = '';
+    document.getElementById('result').value = '';
+}
+
+function deleteLast() {
+    currentCalculation = currentCalculation.slice(0, -1);
+    document.getElementById('result').value = currentCalculation;
+}
+
 function calculate() {
     try {
-        const resultField = document.getElementById("result");
-        const result = eval(resultField.value);
-        history.push(`${resultField.value} = ${result}`);
-        resultField.value = result;
-
-        // Update history
-        document.getElementById("history").innerHTML = history
-            .map(entry => `<p>${entry}</p>`)
-            .join("");
+        let result = eval(currentCalculation);
+        document.getElementById('result').value = result;
+        history.push(`${currentCalculation} = ${result}`);
+        currentCalculation = result;
+        updateHistory();
     } catch (error) {
-        alert("Invalid calculation");
+        document.getElementById('result').value = 'Error';
     }
 }
 
-// Clear display
-function clearDisplay() {
-    document.getElementById("result").value = "";
-}
-
-// Delete last character
-function deleteLast() {
-    const resultField = document.getElementById("result");
-    resultField.value = resultField.value.slice(0, -1);
-}
-
-// Toggle advanced buttons menu
 function toggleMenu() {
-    const advancedButtons = document.getElementById("advanced-buttons");
-    // Check if the menu is currently visible and toggle the display
-    if (advancedButtons.style.display === "grid") {
-        advancedButtons.style.display = "none";
-    } else {
-        advancedButtons.style.display = "grid";
-    }
+    const advancedButtons = document.getElementById('advanced-buttons');
+    advancedButtons.style.display = advancedButtons.style.display === 'none' ? 'grid' : 'none';
 }
 
-// Clear history
 function clearHistory() {
     history = [];
-    document.getElementById("history").innerHTML = "";
+    updateHistory();
+}
+
+function updateHistory() {
+    const historyDiv = document.getElementById('history');
+    historyDiv.innerHTML = '';
+    history.forEach(calc => {
+        const div = document.createElement('div');
+        div.textContent = calc;
+        historyDiv.appendChild(div);
+    });
 }
