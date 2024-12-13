@@ -1,113 +1,97 @@
-/* General Body Styling */
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: Arial, sans-serif;
     background-color: black;
     color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
     margin: 0;
+    padding: 0;
 }
 
 .calculator {
-    background-color: black;
-    border-radius: 15px;
-    width: 340px;
+    max-width: 360px;
+    margin: 50px auto;
     padding: 20px;
-    box-shadow: 0 5px 15px rgba(255, 255, 0, 0.5);
+    background-color: #2e2e2e;
+    border-radius: 15px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.6);
 }
 
-/* Display Styling */
-.display {
-    background-color: #1a1a1a;
-    padding: 10px;
-    border-radius: 10px;
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 15px;
 }
 
-.display input {
-    width: 100%;
-    background: none;
+.menu {
+    background-color: #444;
     border: none;
-    color: yellow;
-    font-size: 2rem;
-    text-align: right;
-    outline: none;
-}
-
-/* History Section Styling */
-.history-section {
-    background-color: #1a1a1a;
-    margin-bottom: 15px;
     padding: 10px;
-    border-radius: 10px;
-    max-height: 100px;
-    overflow-y: auto;
-}
-
-.history-section #history {
-    font-size: 0.9rem;
-    color: yellow;
-    line-height: 1.5;
-}
-
-.history-section .clear-history-btn {
-    background-color: #333;
-    border: none;
-    padding: 8px;
-    font-size: 0.8rem;
-    border-radius: 6px;
-    color: yellow;
+    color: white;
+    font-size: 18px;
     cursor: pointer;
 }
 
-.history-section .clear-history-btn:hover {
-    background-color: #555;
+.clear-history {
+    background-color: #444;
+    border: none;
+    padding: 10px;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
 }
 
-/* Buttons Styling */
-.buttons {
+.display {
+    width: 100%;
+    height: 50px;
+    background-color: #333;
+    color: white;
+    text-align: right;
+    font-size: 28px;
+    border: none;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.buttons, .advanced-buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
 }
 
-.buttons button {
-    background-color: #333;
+button {
+    background-color: #444;
     border: none;
+    color: white;
+    font-size: 20px;
     padding: 15px;
-    font-size: 1rem;
+    cursor: pointer;
     border-radius: 10px;
-    color: yellow;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
-}
-
-.buttons button:hover {
-    background-color: #555;
-    transform: scale(1.05);
-}
-
-/* Menu Button */
-.menu-btn {
-    background-color: #ffcc00;
-    border: none;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 8px;
-    width: 100%;
-    color: black;
-    font-weight: bold;
-    cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.menu-btn:hover {
-    background-color: #ffaa00;
+button:hover {
+    background-color: #666;
 }
 
-/* Advanced Buttons Initially Hidden */
-.advanced-buttons {
+#advanced-buttons {
     display: none;
+    margin-top: 20px;
+}
+
+#history {
+    margin-top: 20px;
+    background-color: #333;
+    padding: 10px;
+    border-radius: 10px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+#history div {
+    padding: 5px 0;
+    border-bottom: 1px solid #444;
+}
+
+#history div:last-child {
+    border-bottom: none;
 }
