@@ -36,8 +36,12 @@ function deleteLast() {
 // Toggle advanced buttons menu
 function toggleMenu() {
     const advancedButtons = document.getElementById("advanced-buttons");
-    advancedButtons.style.display =
-        advancedButtons.style.display === "grid" ? "none" : "grid";
+    // Check if the menu is currently visible and toggle the display
+    if (advancedButtons.style.display === "grid") {
+        advancedButtons.style.display = "none";
+    } else {
+        advancedButtons.style.display = "grid";
+    }
 }
 
 // Clear history
