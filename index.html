@@ -20,7 +20,33 @@
         </div>
 
         <!-- Buttons -->
-        <div class="buttons">
+        <div class="buttons basic-buttons">
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button onclick="appendValue('/')">÷</button>
+
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="appendValue('*')">×</button>
+
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="appendValue('-')">−</button>
+
+            <button onclick="appendValue('.')">.</button>
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="calculate()">=</button>
+            <button onclick="appendValue('+')">+</button>
+        </div>
+
+        <!-- Menu Toggle Button -->
+        <button class="menu-btn" onclick="toggleMenu()">Menu</button>
+
+        <!-- Advanced Buttons (Initially Hidden) -->
+        <div class="buttons advanced-buttons" id="advanced-buttons">
             <button onclick="toggleDegRad()">Deg</button>
             <button onclick="appendValue('(')">(</button>
             <button onclick="appendValue(')')">)</button>
@@ -53,28 +79,9 @@
 
             <button onclick="clearDisplay()">AC</button>
             <button onclick="deleteLast()">DEL</button>
-            <button onclick="appendValue('/')">÷</button>
-            <button onclick="appendValue('*')">×</button>
-
-            <button onclick="appendValue('7')">7</button>
-            <button onclick="appendValue('8')">8</button>
-            <button onclick="appendValue('9')">9</button>
-            <button onclick="appendValue('-')">−</button>
-
-            <button onclick="appendValue('4')">4</button>
-            <button onclick="appendValue('5')">5</button>
-            <button onclick="appendValue('6')">6</button>
-            <button onclick="appendValue('+')">+</button>
-
-            <button onclick="appendValue('1')">1</button>
-            <button onclick="appendValue('2')">2</button>
-            <button onclick="appendValue('3')">3</button>
-            <button onclick="calculate()">=</button>
-
-            <button onclick="appendValue('.')">.</button>
-            <button onclick="appendValue('0')">0</button>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
