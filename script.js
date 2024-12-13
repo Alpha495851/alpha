@@ -1,92 +1,86 @@
-/* General Body Styling */
-body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #121212;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    color: white;
+const result = document.getElementById("result");
+const historyPanel = document.getElementById("history");
+let memory = 0;
+let isDeg = true;
+
+// Append a value to the display
+function appendValue(value) {
+    result.value += value;
 }
 
-.calculator {
-    background-color: #1e1e1e;
-    border-radius: 12px;
-    width: 400px;
-    padding: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+// Clear the display
+function clearDisplay() {
+    result.value = "";
 }
 
-/* Display Styling */
-.display {
-    background-color: #292929;
-    padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
+// Delete the last character from the display
+function deleteLast() {
+    result.value = result.value.slice(0, -1);
 }
 
-.display input {
-    width: 100%;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 2rem;
-    text-align: right;
-    outline: none;
+// Calculate the result of the expression
+function calculate() {
+    try {
+        const expression = result.value;
+        const evaluation = eval(expression);
+        result.value = evaluation;
+
+        // Save to history
+        if (expression) {
+            addToHistory(expression, evaluation);
+        }
+    } catch {
+        result.value = "Error";
+    }
 }
 
-/* History Section Styling */
-.history-section {
-    background-color: #292929;
-    margin-top: 10px;
-    padding: 10px;
-    border-radius: 8px;
-    max-height: 150px;
-    overflow-y: auto;
+// Toggle between Degree and Radian for trigonometric functions
+function toggleDegRad() {
+    isDeg = !isDeg;
+    alert(isDeg ? "Switched to Degrees" : "Switched to Radians");
 }
 
-.history-section #history {
-    font-size: 0.9rem;
-    color: white;
-    line-height: 1.5;
-    margin-bottom: 10px;
+// Append trigonometric functions
+function appendTrig(func) {
+    const value = isDeg ? `${func}(Math.PI/180*` : `${func}(`;
+    result.value += value;
 }
 
-.history-section .clear-history-btn {
-    background-color: #424242;
-    border: none;
-    padding: 8px 12px;
-    font-size: 0.8rem;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    width: 100%;
-    transition: background-color 0.3s;
+// Memory functions
+function memoryClear() {
+    memory = 0;
+    alert("Memory Cleared");
 }
 
-.history-section .clear-history-btn:hover {
-    background-color: #616161;
+function memoryAdd() {
+    memory += parseFloat(result.value || "0");
+    alert(`Memory Added: ${memory}`);
 }
 
-/* Buttons Styling */
-.buttons {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+function memorySubtract() {
+    memory -= parseFloat(result.value || "0");
+    alert(`Memory Subtracted: ${memory}`);
 }
 
-.buttons button {
-    background-color: #424242;
-    border: none;
-    padding: 15px;
-    font-size: 1rem;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
+function memoryRecall() {
+    result.value = memory.toString();
 }
 
-.buttons button:hover {
-    background-color: #616161;
+// History functions
+function addToHistory(expression, evaluation) {
+    const historyItem = document.createElement("div");
+    historyItem.innerHTML = `<span>${expression} = ${evaluation}</span>`;
+    historyPanel.appendChild(historyItem);
+    historyPanel.scrollTop = historyPanel.scrollHeight; // Auto-scroll to the latest
 }
+
+function clearHistory() {
+    historyPanel.innerHTML = ""; // Clear all history
+}
+
+// Disable F12 and context menu
+document.addEventListener("keydown", (event) => {
+    if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
+        event.preventDefault();
+    }
+});
