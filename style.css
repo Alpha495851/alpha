@@ -12,9 +12,9 @@ body {
 
 .calculator {
     background-color: #1e1e1e;
-    border-radius: 12px;
-    width: 400px;
-    padding: 15px;
+    border-radius: 15px;
+    width: 340px;
+    padding: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
 }
 
@@ -22,8 +22,8 @@ body {
 .display {
     background-color: #292929;
     padding: 10px;
-    border-radius: 8px;
-    margin-bottom: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
 }
 
 .display input {
@@ -39,10 +39,10 @@ body {
 /* History Section Styling */
 .history-section {
     background-color: #292929;
-    margin-top: 10px;
+    margin-bottom: 15px;
     padding: 10px;
-    border-radius: 8px;
-    max-height: 150px;
+    border-radius: 10px;
+    max-height: 100px;
     overflow-y: auto;
 }
 
@@ -56,7 +56,7 @@ body {
 .history-section .clear-history-btn {
     background-color: #424242;
     border: none;
-    padding: 8px 12px;
+    padding: 8px;
     font-size: 0.8rem;
     border-radius: 6px;
     color: white;
@@ -81,12 +81,13 @@ body {
     border: none;
     padding: 15px;
     font-size: 1rem;
-    border-radius: 8px;
+    border-radius: 10px;
     color: white;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.2s;
 }
 
 .buttons button:hover {
     background-color: #616161;
+    transform: scale(1.05);
 }
