@@ -39,12 +39,11 @@ body {
 /* History Section Styling */
 .history-section {
     background-color: #1a1a1a;
-    margin-left: 20px; /* Adjusted margin for positioning beside buttons */
+    margin-bottom: 15px;
     padding: 10px;
     border-radius: 10px;
     max-height: 100px;
     overflow-y: auto;
-    width: 100px; /* Adjusted width to fit beside */
 }
 
 .history-section #history {
