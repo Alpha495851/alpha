@@ -1,86 +1,47 @@
-const result = document.getElementById("result");
-const historyPanel = document.getElementById("history");
-let memory = 0;
-let isDeg = true;
+let history = [];
 
-// Append a value to the display
+// Append value to the input field
 function appendValue(value) {
-    result.value += value;
+    document.getElementById("result").value += value;
 }
 
-// Clear the display
-function clearDisplay() {
-    result.value = "";
-}
-
-// Delete the last character from the display
-function deleteLast() {
-    result.value = result.value.slice(0, -1);
-}
-
-// Calculate the result of the expression
+// Perform calculation
 function calculate() {
     try {
-        const expression = result.value;
-        const evaluation = eval(expression);
-        result.value = evaluation;
+        const resultField = document.getElementById("result");
+        const result = eval(resultField.value);
+        history.push(`${resultField.value} = ${result}`);
+        resultField.value = result;
 
-        // Save to history
-        if (expression) {
-            addToHistory(expression, evaluation);
-        }
-    } catch {
-        result.value = "Error";
+        // Update history
+        document.getElementById("history").innerHTML = history
+            .map(entry => `<p>${entry}</p>`)
+            .join("");
+    } catch (error) {
+        alert("Invalid calculation");
     }
 }
 
-// Toggle between Degree and Radian for trigonometric functions
-function toggleDegRad() {
-    isDeg = !isDeg;
-    alert(isDeg ? "Switched to Degrees" : "Switched to Radians");
+// Clear display
+function clearDisplay() {
+    document.getElementById("result").value = "";
 }
 
-// Append trigonometric functions
-function appendTrig(func) {
-    const value = isDeg ? `${func}(Math.PI/180*` : `${func}(`;
-    result.value += value;
+// Delete last character
+function deleteLast() {
+    const resultField = document.getElementById("result");
+    resultField.value = resultField.value.slice(0, -1);
 }
 
-// Memory functions
-function memoryClear() {
-    memory = 0;
-    alert("Memory Cleared");
+// Toggle advanced buttons menu
+function toggleMenu() {
+    const advancedButtons = document.getElementById("advanced-buttons");
+    advancedButtons.style.display =
+        advancedButtons.style.display === "grid" ? "none" : "grid";
 }
 
-function memoryAdd() {
-    memory += parseFloat(result.value || "0");
-    alert(`Memory Added: ${memory}`);
-}
-
-function memorySubtract() {
-    memory -= parseFloat(result.value || "0");
-    alert(`Memory Subtracted: ${memory}`);
-}
-
-function memoryRecall() {
-    result.value = memory.toString();
-}
-
-// History functions
-function addToHistory(expression, evaluation) {
-    const historyItem = document.createElement("div");
-    historyItem.innerHTML = `<span>${expression} = ${evaluation}</span>`;
-    historyPanel.appendChild(historyItem);
-    historyPanel.scrollTop = historyPanel.scrollHeight; // Auto-scroll to the latest
-}
-
+// Clear history
 function clearHistory() {
-    historyPanel.innerHTML = ""; // Clear all history
+    history = [];
+    document.getElementById("history").innerHTML = "";
 }
-
-// Disable F12 and context menu
-document.addEventListener("keydown", (event) => {
-    if (event.key === "F12" || (event.ctrlKey && event.shiftKey && event.key === "I")) {
-        event.preventDefault();
-    }
-});
