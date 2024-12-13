@@ -30,7 +30,18 @@ function calculate() {
 
 function toggleMenu() {
     const advancedButtons = document.getElementById('advanced-buttons');
-    advancedButtons.style.display = advancedButtons.style.display === 'none' ? 'grid' : 'none';
+    const buttons = document.querySelectorAll('#advanced-buttons button');
+    if (advancedButtons.style.display === 'none' || advancedButtons.style.display === '') {
+        advancedButtons.style.display = 'grid';
+        buttons.forEach(button => {
+            button.classList.add('active');
+        });
+    } else {
+        advancedButtons.style.display = 'none';
+        buttons.forEach(button => {
+            button.classList.remove('active');
+        });
+    }
 }
 
 function clearHistory() {
