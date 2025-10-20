@@ -1,88 +1,138 @@
-            <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Calculator</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Smart Desk Panel</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+#clock {
+  font-size: 80px;
+  text-shadow: 0 0 25px cyan, 0 0 40px #00eaff;
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 20px #00eaff, 0 0 40px #00b8ff; }
+  to { text-shadow: 0 0 40px #00ffff, 0 0 80px #00eaff; }
+}
+
+#date {
+  font-size: 22px;
+  margin-top: 8px;
+  opacity: 0.8;
+}
+
+#greeting {
+  font-size: 26px;
+  margin-top: 15px;
+  color: #ffdf6b;
+}
+
+#weather {
+  font-size: 20px;
+  margin-top: 25px;
+}
+
+#voiceBtn {
+  margin-top: 30px;
+  background: #00eaff;
+  color: black;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 0 10px #00eaff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#voiceBtn:hover {
+  background: #00ffff;
+  box-shadow: 0 0 25px #00ffff;
+}
+</style>
 </head>
-<body oncontextmenu="return false">
-    <div class="calculator">
-        <!-- Display -->
-        <div class="display">
-            <input type="text" id="result" placeholder="0" disabled>
-        </div>
 
-        <!-- History Section -->
-        <div class="history-section">
-            <div id="history"></div>
-            <button class="clear-history-btn" onclick="clearHistory()">Clear History</button>
-        </div>
+<body>
+  <div id="clock">00:00</div>
+  <div id="date"></div>
+  <div id="greeting"></div>
+  <div id="weather">Loading weather...</div>
+  <button id="voiceBtn">🎙️ Voice Control</button>
 
-        <!-- Buttons -->
-        <div class="buttons basic-buttons">
-            <button onclick="appendValue('7')">7</button>
-            <button onclick="appendValue('8')">8</button>
-            <button onclick="appendValue('9')">9</button>
-            <button onclick="appendValue('/')">÷</button>
+<script>
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2, '0');
+  const m = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('clock').textContent = `${h}:${m}`;
 
-            <button onclick="appendValue('4')">4</button>
-            <button onclick="appendValue('5')">5</button>
-            <button onclick="appendValue('6')">6</button>
-            <button onclick="appendValue('*')">×</button>
+  const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('date').textContent = now.toLocaleDateString('en-US', dateOptions);
 
-            <button onclick="appendValue('1')">1</button>
-            <button onclick="appendValue('2')">2</button>
-            <button onclick="appendValue('3')">3</button>
-            <button onclick="appendValue('-')">−</button>
+  const hour = now.getHours();
+  const greeting = hour < 12 ? "Good Morning ☀️" :
+                   hour < 18 ? "Good Afternoon 🌤️" :
+                   "Good Evening 🌙";
+  document.getElementById('greeting').textContent = greeting;
+}
+setInterval(updateClock, 1000);
+updateClock();
 
-            <button onclick="appendValue('.')">.</button>
-            <button onclick="appendValue('0')">0</button>
-            <button onclick="calculate()">=</button>
-            <button onclick="appendValue('+')">+</button>
-        </div>
+// --- Weather (OpenWeatherMap) ---
+const API_KEY = "YOUR_API_KEY"; // <- get one from openweathermap.org (free)
+navigator.geolocation.getCurrentPosition(success, error);
 
-        <!-- Menu Toggle Button -->
-        <button class="menu-btn" onclick="toggleMenu()">Menu</button>
+function success(pos) {
+  const lat = pos.coords.latitude;
+  const lon = pos.coords.longitude;
+  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`)
+    .then(res => res.json())
+    .then(data => {
+      const temp = data.main.temp.toFixed(1);
+      const condition = data.weather[0].main;
+      document.getElementById('weather').textContent = `${condition} • ${temp}°C`;
+    });
+}
 
-        <!-- Advanced Buttons (Initially Hidden) -->
-        <div class="buttons advanced-buttons" id="advanced-buttons">
-    <button onclick="toggleDegRad()">Deg</button>
-    <button onclick="appendValue('(')">(</button>
-    <button onclick="appendValue(')')">)</button>
-    <button onclick="appendValue('10**')">10ˣ</button>
+function error() {
+  document.getElementById('weather').textContent = "Weather unavailable";
+}
 
-    <button onclick="memoryClear()">MC</button>
-    <button onclick="memoryAdd()">M+</button>
-    <button onclick="memorySubtract()">M-</button>
-    <button onclick="memoryRecall()">MR</button>
+// --- Voice Control (Demo placeholder) ---
+const voiceBtn = document.getElementById('voiceBtn');
+voiceBtn.addEventListener('click', () => {
+  if (!('webkitSpeechRecognition' in window)) {
+    alert('Voice recognition not supported in this browser');
+    return;
+  }
+  const recognition = new webkitSpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.start();
 
-    <!-- Updated buttons to show symbols -->
-    <button onclick="appendSymbol('√')">√</button>
-    <button onclick="appendSymbol('∛')">∛</button>
-    <button onclick="appendSymbol('lg')">lg</button>
-    <button onclick="appendSymbol('ln')">ln</button>
-
-    <button onclick="appendSymbol('sin')">sin</button>
-    <button onclick="appendSymbol('cos')">cos</button>
-    <button onclick="appendSymbol('tan')">tan</button>
-    <button onclick="appendSymbol('eˣ')">eˣ</button>
-
-    <button onclick="appendSymbol('sinh')">sinh</button>
-    <button onclick="appendSymbol('cosh')">cosh</button>
-    <button onclick="appendSymbol('tanh')">tanh</button>
-    <button onclick="appendSymbol('π')">π</button>
-
-    <button onclick="appendValue('**2')">x²</button>
-    <button onclick="appendValue('**3')">x³</button>
-    <button onclick="appendValue('**')">xʸ</button>
-    <button onclick="appendValue('%')">%</button>
-
-    <button onclick="clearDisplay()">AC</button>
-    <button onclick="deleteLast()">DEL</button>
-        </div>
-                
-
-    <script src="script.js"></script>
+  recognition.onresult = function(event) {
+    const command = event.results[0][0].transcript.toLowerCase();
+    alert("You said: " + command);
+    // Later: send to PC via local server
+  };
+});
+</script>
 </body>
 </html>
