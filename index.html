@@ -1,138 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Smart Desk Panel</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
-
-body {
-  margin: 0;
-  background: linear-gradient(180deg, #0f2027, #203a43, #2c5364);
-  color: white;
-  font-family: 'Orbitron', sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  overflow: hidden;
-}
-
-#clock {
-  font-size: 80px;
-  text-shadow: 0 0 25px cyan, 0 0 40px #00eaff;
-  animation: glow 3s ease-in-out infinite alternate;
-}
-
-@keyframes glow {
-  from { text-shadow: 0 0 20px #00eaff, 0 0 40px #00b8ff; }
-  to { text-shadow: 0 0 40px #00ffff, 0 0 80px #00eaff; }
-}
-
-#date {
-  font-size: 22px;
-  margin-top: 8px;
-  opacity: 0.8;
-}
-
-#greeting {
-  font-size: 26px;
-  margin-top: 15px;
-  color: #ffdf6b;
-}
-
-#weather {
-  font-size: 20px;
-  margin-top: 25px;
-}
-
-#voiceBtn {
-  margin-top: 30px;
-  background: #00eaff;
-  color: black;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 30px;
-  font-size: 18px;
-  font-weight: bold;
-  box-shadow: 0 0 10px #00eaff;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-#voiceBtn:hover {
-  background: #00ffff;
-  box-shadow: 0 0 25px #00ffff;
-}
-</style>
+  <meta charset="UTF-8" />
+  <title>Alpha School</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <div id="clock">00:00</div>
-  <div id="date"></div>
-  <div id="greeting"></div>
-  <div id="weather">Loading weather...</div>
-  <button id="voiceBtn">🎙️ Voice Control</button>
 
-<script>
-function updateClock() {
-  const now = new Date();
-  const h = String(now.getHours()).padStart(2, '0');
-  const m = String(now.getMinutes()).padStart(2, '0');
-  document.getElementById('clock').textContent = `${h}:${m}`;
+  <h1>📘 Alpha School Assignments</h1>
 
-  const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-  document.getElementById('date').textContent = now.toLocaleDateString('en-US', dateOptions);
+  <div id="selectors">
+    <select id="classSelect">
+      <option value="">Select Class</option>
+      <option value="class5">Class 5</option>
+      <option value="class6">Class 6</option>
+      <option value="class7">Class 7</option>
+      <option value="class8">Class 8</option>
+    </select>
 
-  const hour = now.getHours();
-  const greeting = hour < 12 ? "Good Morning ☀️" :
-                   hour < 18 ? "Good Afternoon 🌤️" :
-                   "Good Evening 🌙";
-  document.getElementById('greeting').textContent = greeting;
-}
-setInterval(updateClock, 1000);
-updateClock();
+    <select id="sectionSelect" disabled>
+      <option value="">Select Section</option>
+    </select>
 
-// --- Weather (OpenWeatherMap) ---
-const API_KEY = "YOUR_API_KEY"; // <- get one from openweathermap.org (free)
-navigator.geolocation.getCurrentPosition(success, error);
+    <select id="subjectSelect" disabled>
+      <option value="">Select Subject</option>
+    </select>
+  </div>
 
-function success(pos) {
-  const lat = pos.coords.latitude;
-  const lon = pos.coords.longitude;
-  fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`)
-    .then(res => res.json())
-    .then(data => {
-      const temp = data.main.temp.toFixed(1);
-      const condition = data.weather[0].main;
-      document.getElementById('weather').textContent = `${condition} • ${temp}°C`;
-    });
-}
+  <div id="content"></div>
 
-function error() {
-  document.getElementById('weather').textContent = "Weather unavailable";
-}
-
-// --- Voice Control (Demo placeholder) ---
-const voiceBtn = document.getElementById('voiceBtn');
-voiceBtn.addEventListener('click', () => {
-  if (!('webkitSpeechRecognition' in window)) {
-    alert('Voice recognition not supported in this browser');
-    return;
-  }
-  const recognition = new webkitSpeechRecognition();
-  recognition.lang = 'en-US';
-  recognition.start();
-
-  recognition.onresult = function(event) {
-    const command = event.results[0][0].transcript.toLowerCase();
-    alert("You said: " + command);
-    // Later: send to PC via local server
-  };
-});
-</script>
+  <!-- Firebase SDKs -->
+  <script type="module" src="script.js"></script>
 </body>
 </html>
+
