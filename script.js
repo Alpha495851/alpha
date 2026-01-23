@@ -34,7 +34,7 @@ classSelect.onchange = async () => {
   const snap = await getDoc(doc(db, "classes", classSelect.value));
   if (!snap.exists()) return;
 
-  const sections = snap.data().Sections;
+  const sections = snap.data().sections;
   if (!sections) return;
 
   Object.keys(sections).forEach(sec => {
