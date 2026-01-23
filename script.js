@@ -24,12 +24,17 @@ const content = document.getElementById("content");
 
 /* 1️⃣ Load classes */
 async function loadClasses() {
+  console.log("Loading classes...");
   const snap = await getDocs(collection(db, "classes"));
+  console.log("Classes found:", snap.size);
+
   snap.forEach(doc => {
+    console.log("Class:", doc.id);
     classSelect.innerHTML += `<option value="${doc.id}">${doc.id}</option>`;
   });
 }
 loadClasses();
+
 
 /* 2️⃣ Class → Sections */
 classSelect.onchange = async () => {
