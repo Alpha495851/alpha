@@ -34,7 +34,7 @@ classSelect.onchange = async () => {
   const snap = await getDoc(doc(db, "classes", classSelect.value));
   if (!snap.exists()) return;
 
-  const sections = snap.data().sections;
+  const sections = snap.data().Sections;
   if (!sections) return;
 
   Object.keys(sections).forEach(sec => {
@@ -53,7 +53,7 @@ sectionSelect.onchange = async () => {
 
   if (!sectionData?.subjects?.chapters) return;
 
-  // Since you don't have subject level yet, we fake ONE subject
+  
   subjectSelect.innerHTML = `<option value="main">Main Subject</option>`;
 };
 
