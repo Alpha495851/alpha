@@ -7,11 +7,11 @@ import {
   orderBy
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-/* 🔥 YOUR FIREBASE CONFIG */
+/* 🔥 YOUR CONFIG */
 const firebaseConfig = {
   apiKey: "AIzaSyBNQDmQGaje_PexfDp31CPwtr79suMA0aQ",
-  authDomain: "websitedatabase495851.firebaseapp.com",
-  projectId: "websitedatabase495851",
+  authDomain: "websitedatabase495851-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "websitedatabase495851"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -22,56 +22,62 @@ const sectionSelect = document.getElementById("sectionSelect");
 const subjectSelect = document.getElementById("subjectSelect");
 const content = document.getElementById("content");
 
-/* Sections logic */
-const sectionMap = {
-  class5: ["A", "B", "C"],
-  class6: ["A", "B", "C"],
-  class7: ["A", "B"],
-  class8: ["A", "B"]
-};
+/* 1️⃣ Load classes */
+async function loadClasses() {
+  const snap = await getDocs(collection(db, "classes"));
+  snap.forEach(doc => {
+    classSelect.innerHTML += `<option value="${doc.id}">${doc.id}</option>`;
+  });
+}
+loadClasses();
 
-classSelect.onchange = () => {
+/* 2️⃣ Class → Sections */
+classSelect.onchange = async () => {
   sectionSelect.innerHTML = `<option value="">Select Section</option>`;
   subjectSelect.innerHTML = `<option value="">Select Subject</option>`;
   content.innerHTML = "";
 
   const cls = classSelect.value;
-  sectionSelect.disabled = !cls;
+  if (!cls) return;
+
+  sectionSelect.disabled = false;
   subjectSelect.disabled = true;
 
-  if (cls) {
-    sectionMap[cls].forEach(sec => {
-      sectionSelect.innerHTML += `<option value="${sec}">${sec}</option>`;
-    });
-  }
+  const sectionsRef = collection(db, "classes", cls, "sections");
+  const snap = await getDocs(sectionsRef);
+
+  snap.forEach(doc => {
+    sectionSelect.innerHTML += `<option value="${doc.id}">${doc.id}</option>`;
+  });
 };
 
+/* 3️⃣ Section → Subjects */
 sectionSelect.onchange = async () => {
   subjectSelect.innerHTML = `<option value="">Select Subject</option>`;
   content.innerHTML = "";
-  subjectSelect.disabled = true;
 
   const cls = classSelect.value;
   const sec = sectionSelect.value;
   if (!sec) return;
 
+  subjectSelect.disabled = false;
+
   const subjectsRef = collection(
     db,
     "classes",
     cls,
-    "Section",
+    "sections",
     sec,
     "subjects"
   );
 
   const snap = await getDocs(subjectsRef);
   snap.forEach(doc => {
-    subjectSelect.innerHTML += `<option value="${doc.id}">${doc.id.replace("_"," ")}</option>`;
+    subjectSelect.innerHTML += `<option value="${doc.id}">${doc.id}</option>`;
   });
-
-  subjectSelect.disabled = false;
 };
 
+/* 4️⃣ Subject → Chapters → Assignments */
 subjectSelect.onchange = async () => {
   content.innerHTML = "";
 
@@ -83,7 +89,7 @@ subjectSelect.onchange = async () => {
     db,
     "classes",
     cls,
-    "Section",
+    "sections",
     sec,
     "subjects",
     sub,
@@ -92,7 +98,7 @@ subjectSelect.onchange = async () => {
 
   const chaptersSnap = await getDocs(chaptersRef);
 
-  chaptersSnap.forEach(async chapterDoc => {
+  for (const chapterDoc of chaptersSnap.docs) {
     const chapterDiv = document.createElement("div");
     chapterDiv.className = "chapter";
     chapterDiv.innerHTML = `<h3>${chapterDoc.id}</h3>`;
@@ -107,12 +113,12 @@ subjectSelect.onchange = async () => {
       const d = a.data();
       chapterDiv.innerHTML += `
         <div class="assignment">
-          <strong>${d.date}</strong><br/>
+          <b>${d.date}</b><br/>
           ${d.text}
         </div>
       `;
     });
 
     content.appendChild(chapterDiv);
-  });
+  }
 };
