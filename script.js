@@ -1,9 +1,10 @@
-console.log("classSelect:", document.getElementById("classSelect"));
-
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import {
+  getFirestore,
+  collection,
+  getDocs
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 🔴 PUT YOUR FIREBASE CONFIG HERE
 const firebaseConfig = {
   apiKey: "AIzaSyBNQDmQGaje_PexfDp31CPwtr79suMA0aQ",
   authDomain: "websitedatabase495851.firebaseapp.com",
@@ -19,62 +20,98 @@ const subjectSelect = document.getElementById("subjectSelect");
 const chapterSelect = document.getElementById("chapterSelect");
 const assignmentsDiv = document.getElementById("assignments");
 
-// Load classes
+/* ------------------ LOAD CLASSES ------------------ */
 ["5","6","7","8","9","10"].forEach(c => {
   const opt = document.createElement("option");
   opt.value = "class" + c;
-  opt.text = "Class " + c;
+  opt.textContent = "Class " + c;
   classSelect.appendChild(opt);
 });
 
-classSelect.onchange = async () => {
-  console.log("Class selected");
-  const snap = await getDoc(doc(db, "classes", classSelect.value));
-  const data = snap.data();
-
-  sectionSelect.innerHTML = "";
-  Object.keys(data.sections).forEach(sec => {
-    sectionSelect.innerHTML += `<option>${sec}</option>`;
-  });
-};
-
-sectionSelect.onchange = async () => {
-  const snap = await getDoc(doc(db, "classes", classSelect.value));
-  const subjects = snap.data().sections[sectionSelect.value].subjects;
- console.log("Section select element:", sectionSelect);
-
+/* ------------------ LOAD SECTIONS ------------------ */
+classSelect.addEventListener("change", async () => {
+  sectionSelect.innerHTML = "<option>Select Section</option>";
   subjectSelect.innerHTML = "";
-  Object.keys(subjects).forEach(s => {
-    subjectSelect.innerHTML += `<option>${s}</option>`;
-  });
-};
-
-subjectSelect.onchange = async () => {
-  const snap = await getDoc(doc(db, "classes", classSelect.value));
-  const chapters = snap.data()
-    .sections[sectionSelect.value]
-    .subjects[subjectSelect.value]
-    .chapters;
-
   chapterSelect.innerHTML = "";
-  Object.keys(chapters).forEach(c => {
-    chapterSelect.innerHTML += `<option>${c}</option>`;
+  assignmentsDiv.innerHTML = "";
+
+  const sectionsRef = collection(
+    db,
+    `classes/${classSelect.value}/Section`
+  );
+
+  const snap = await getDocs(sectionsRef);
+  console.log("Sections found:", snap.size);
+
+  snap.forEach(doc => {
+    const opt = document.createElement("option");
+    opt.value = doc.id;
+    opt.textContent = doc.id;
+    sectionSelect.appendChild(opt);
   });
-};
+});
 
-chapterSelect.onchange = async () => {
-  const snap = await getDoc(doc(db, "classes", classSelect.value));
-  const assignments = snap.data()
-    .sections[sectionSelect.value]
-    .subjects[subjectSelect.value]
-    .chapters[chapterSelect.value]
-    .assignments;
+/* ------------------ LOAD SUBJECTS ------------------ */
+sectionSelect.addEventListener("change", async () => {
+  subjectSelect.innerHTML = "<option>Select Subject</option>";
+  chapterSelect.innerHTML = "";
+  assignmentsDiv.innerHTML = "";
 
+  const subjectsRef = collection(
+    db,
+    `classes/${classSelect.value}/Section/${sectionSelect.value}/subjects`
+  );
+
+  const snap = await getDocs(subjectsRef);
+  console.log("Subjects found:", snap.size);
+
+  snap.forEach(doc => {
+    const opt = document.createElement("option");
+    opt.value = doc.id;
+    opt.textContent = doc.id;
+    subjectSelect.appendChild(opt);
+  });
+});
+
+/* ------------------ LOAD CHAPTERS ------------------ */
+subjectSelect.addEventListener("change", async () => {
+  chapterSelect.innerHTML = "<option>Select Chapter</option>";
+  assignmentsDiv.innerHTML = "";
+
+  const chaptersRef = collection(
+    db,
+    `classes/${classSelect.value}/Section/${sectionSelect.value}/subjects/${subjectSelect.value}/chapters`
+  );
+
+  const snap = await getDocs(chaptersRef);
+  console.log("Chapters found:", snap.size);
+
+  snap.forEach(doc => {
+    const opt = document.createElement("option");
+    opt.value = doc.id;
+    opt.textContent = doc.id;
+    chapterSelect.appendChild(opt);
+  });
+});
+
+/* ------------------ LOAD ASSIGNMENTS ------------------ */
+chapterSelect.addEventListener("change", async () => {
   assignmentsDiv.innerHTML = "<h3>Assignments</h3>";
 
-  Object.keys(assignments)
-    .sort((a, b) => b.localeCompare(a)) // NEW → OLD
-    .forEach(date => {
-      assignmentsDiv.innerHTML += `<p><b>${date}</b>: ${assignments[date]}</p>`;
-    });
-};
+  const assignRef = collection(
+    db,
+    `classes/${classSelect.value}/Section/${sectionSelect.value}/subjects/${subjectSelect.value}/chapters/${chapterSelect.value}/assignments`
+  );
+
+  const snap = await getDocs(assignRef);
+
+  const sorted = snap.docs
+    .map(d => d)
+    .sort((a, b) => b.id.localeCompare(a.id)); // NEW → OLD
+
+  sorted.forEach(doc => {
+    assignmentsDiv.innerHTML += `
+      <p><b>${doc.id}</b>: ${doc.data().text || ""}</p>
+    `;
+  });
+});
