@@ -53,7 +53,7 @@ sectionSelect.onchange = async () => {
 
   if (!sectionData?.subjects?.chapters) return;
 
-  
+  // Since you don't have subject level yet, we fake ONE subject
   subjectSelect.innerHTML = `<option value="main">Main Subject</option>`;
 };
 
