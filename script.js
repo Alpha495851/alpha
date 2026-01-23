@@ -39,6 +39,7 @@ classSelect.onchange = async () => {
 sectionSelect.onchange = async () => {
   const snap = await getDoc(doc(db, "classes", classSelect.value));
   const subjects = snap.data().sections[sectionSelect.value].subjects;
+ console.log("Section select element:", sectionSelect);
 
   subjectSelect.innerHTML = "";
   Object.keys(subjects).forEach(s => {
