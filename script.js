@@ -1,16 +1,10 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  query,
-  orderBy
-} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-/* 🔥 YOUR CONFIG */
+// 🔴 PUT YOUR FIREBASE CONFIG HERE
 const firebaseConfig = {
   apiKey: "AIzaSyBNQDmQGaje_PexfDp31CPwtr79suMA0aQ",
-  authDomain: "websitedatabase495851-default-rtdb.asia-southeast1.firebasedatabase.app",
+  authDomain: "websitedatabase495851.firebaseapp.com",
   projectId: "websitedatabase495851"
 };
 
@@ -20,110 +14,64 @@ const db = getFirestore(app);
 const classSelect = document.getElementById("classSelect");
 const sectionSelect = document.getElementById("sectionSelect");
 const subjectSelect = document.getElementById("subjectSelect");
-const content = document.getElementById("content");
+const chapterSelect = document.getElementById("chapterSelect");
+const assignmentsDiv = document.getElementById("assignments");
 
-/* 1️⃣ Load classes */
-async function loadClasses() {
-  console.log("Loading classes...");
-  const snap = await getDocs(collection(db, "classes"));
-  console.log("Classes found:", snap.size);
+// Load classes
+["5","6","7","8","9","10"].forEach(c => {
+  const opt = document.createElement("option");
+  opt.value = "class" + c;
+  opt.text = "Class " + c;
+  classSelect.appendChild(opt);
+});
 
-  snap.forEach(doc => {
-    console.log("Class:", doc.id);
-    classSelect.innerHTML += `<option value="${doc.id}">${doc.id}</option>`;
-  });
-}
-loadClasses();
-
-
-/* 2️⃣ Class → Sections */
 classSelect.onchange = async () => {
-  sectionSelect.innerHTML = `<option value="">Select Section</option>`;
-  subjectSelect.innerHTML = `<option value="">Select Subject</option>`;
-  content.innerHTML = "";
+  console.log("Class selected");
+  const snap = await getDoc(doc(db, "classes", classSelect.value));
+  const data = snap.data();
 
-  const cls = classSelect.value;
-  if (!cls) return;
-
-  sectionSelect.disabled = false;
-  subjectSelect.disabled = true;
-
-  const sectionsRef = collection(db, "classes", cls, "sections");
-  const snap = await getDocs(sectionsRef);
-
-  snap.forEach(doc => {
-    sectionSelect.innerHTML += `<option value="${doc.id}">${doc.id}</option>`;
+  sectionSelect.innerHTML = "";
+  Object.keys(data.sections).forEach(sec => {
+    sectionSelect.innerHTML += `<option>${sec}</option>`;
   });
 };
 
-/* 3️⃣ Section → Subjects */
 sectionSelect.onchange = async () => {
-  subjectSelect.innerHTML = `<option value="">Select Subject</option>`;
-  content.innerHTML = "";
+  const snap = await getDoc(doc(db, "classes", classSelect.value));
+  const subjects = snap.data().sections[sectionSelect.value].subjects;
 
-  const cls = classSelect.value;
-  const sec = sectionSelect.value;
-  if (!sec) return;
-
-  subjectSelect.disabled = false;
-
-  const subjectsRef = collection(
-    db,
-    "classes",
-    cls,
-    "sections",
-    sec,
-    "subjects"
-  );
-
-  const snap = await getDocs(subjectsRef);
-  snap.forEach(doc => {
-    subjectSelect.innerHTML += `<option value="${doc.id}">${doc.id}</option>`;
+  subjectSelect.innerHTML = "";
+  Object.keys(subjects).forEach(s => {
+    subjectSelect.innerHTML += `<option>${s}</option>`;
   });
 };
 
-/* 4️⃣ Subject → Chapters → Assignments */
 subjectSelect.onchange = async () => {
-  content.innerHTML = "";
+  const snap = await getDoc(doc(db, "classes", classSelect.value));
+  const chapters = snap.data()
+    .sections[sectionSelect.value]
+    .subjects[subjectSelect.value]
+    .chapters;
 
-  const cls = classSelect.value;
-  const sec = sectionSelect.value;
-  const sub = subjectSelect.value;
+  chapterSelect.innerHTML = "";
+  Object.keys(chapters).forEach(c => {
+    chapterSelect.innerHTML += `<option>${c}</option>`;
+  });
+};
 
-  const chaptersRef = collection(
-    db,
-    "classes",
-    cls,
-    "sections",
-    sec,
-    "subjects",
-    sub,
-    "chapters"
-  );
+chapterSelect.onchange = async () => {
+  const snap = await getDoc(doc(db, "classes", classSelect.value));
+  const assignments = snap.data()
+    .sections[sectionSelect.value]
+    .subjects[subjectSelect.value]
+    .chapters[chapterSelect.value]
+    .assignments;
 
-  const chaptersSnap = await getDocs(chaptersRef);
+  assignmentsDiv.innerHTML = "<h3>Assignments</h3>";
 
-  for (const chapterDoc of chaptersSnap.docs) {
-    const chapterDiv = document.createElement("div");
-    chapterDiv.className = "chapter";
-    chapterDiv.innerHTML = `<h3>${chapterDoc.id}</h3>`;
-
-    const assignRef = query(
-      collection(chapterDoc.ref, "assignments"),
-      orderBy("date", "desc")
-    );
-
-    const assignSnap = await getDocs(assignRef);
-    assignSnap.forEach(a => {
-      const d = a.data();
-      chapterDiv.innerHTML += `
-        <div class="assignment">
-          <b>${d.date}</b><br/>
-          ${d.text}
-        </div>
-      `;
+  Object.keys(assignments)
+    .sort((a, b) => b.localeCompare(a)) // NEW → OLD
+    .forEach(date => {
+      assignmentsDiv.innerHTML += `<p><b>${date}</b>: ${assignments[date]}</p>`;
     });
-
-    content.appendChild(chapterDiv);
-  }
 };
