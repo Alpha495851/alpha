@@ -1,1 +1,16 @@
+const ADMIN_PASS = "alpha123";
 
+function login() {
+  if (document.getElementById("password").value === ADMIN_PASS) {
+    document.getElementById("editor").style.display = "block";
+  } else {
+    alert("Wrong password");
+  }
+}
+
+const editor = document.getElementById("editorText");
+const preview = document.getElementById("preview");
+
+editor.oninput = () => {
+  preview.innerHTML = editor.value.replace(/\n/g, "<br>");
+};
