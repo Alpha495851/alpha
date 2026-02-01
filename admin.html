@@ -1,1 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
 
+<h2>Admin Editor</h2>
+
+<input id="password" type="password" placeholder="Admin password">
+<button onclick="login()">Login</button>
+
+<div id="editor" style="display:none">
+  <textarea id="editorText"></textarea>
+  <h3>Preview</h3>
+  <div id="preview"></div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
