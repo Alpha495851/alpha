@@ -1,18 +1,15 @@
 body {
-  font-family: Arial;
+  font-family: Arial, sans-serif;
   padding: 20px;
 }
 
 select {
-  display: block;
-  margin: 10px 0;
-  padding: 5px;
+  margin-bottom: 15px;
+  padding: 6px;
+  width: 200px;
 }
 
-h2 {
+#content {
   margin-top: 20px;
-}
-
-#assignments {
-  margin-top: 20px;
+  line-height: 1.6;
 }
