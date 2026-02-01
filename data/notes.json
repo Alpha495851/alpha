@@ -1,1 +1,15 @@
-
+{
+  "class10": {
+    "A": {
+      "maths": {
+        "algebra": {
+          "notes": "Algebra is the branch of mathematics dealing with symbols.",
+          "assignments": {
+            "2025-01-15": "Solve exercise 3.1",
+            "2025-01-10": "Practice linear equations"
+          }
+        }
+      }
+    }
+  }
+}
