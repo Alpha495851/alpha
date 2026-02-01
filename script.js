@@ -31,39 +31,42 @@ classSelect.onchange = () => {
   });
 };
 
-sectionSelect.onchange = () => {
-  subjectSelect.innerHTML = "";
-  chapterSelect.innerHTML = "";
-  content.innerHTML = "";
+sectionSelect.onchange = async () => {
+  const snap = await getDoc(doc(db, "classes", classSelect.value));
+  const sectionData = snap.data()[sectionSelect.value];
 
-  const subjects = data[classSelect.value][sectionSelect.value];
-  Object.keys(subjects).forEach(sub => {
-    subjectSelect.innerHTML += `<option value="${sub}">${sub}</option>`;
+  subjectSelect.innerHTML = "<option>Select Subject</option>";
+
+  Object.keys(sectionData).forEach(subject => {
+    subjectSelect.innerHTML += <option value="${subject}">${subject}</option>;
   });
 };
 
-subjectSelect.onchange = () => {
-  chapterSelect.innerHTML = "";
-  content.innerHTML = "";
+subjectSelect.onchange = async () => {
+  const snap = await getDoc(doc(db, "classes", classSelect.value));
+  const chapters =
+    snap.data()[sectionSelect.value][subjectSelect.value];
 
-  const chapters = data[classSelect.value][sectionSelect.value][subjectSelect.value];
+  chapterSelect.innerHTML = "<option>Select Chapter</option>";
+
   Object.keys(chapters).forEach(ch => {
-    chapterSelect.innerHTML += `<option value="${ch}">${ch}</option>`;
+    chapterSelect.innerHTML += <option value="${ch}">${ch}</option>;
   });
 };
 
-chapterSelect.onchange = () => {
-  const chapter = data[classSelect.value][sectionSelect.value][subjectSelect.value][chapterSelect.value];
+chapterSelect.onchange = async () => {
+  const snap = await getDoc(doc(db, "classes", classSelect.value));
+  const data =
+    snap.data()[sectionSelect.value]
+      [subjectSelect.value]
+      [chapterSelect.value];
 
-  content.innerHTML = `
-    <h3>Notes</h3>
-    <p>${chapter.notes}</p>
-    <h3>Assignments</h3>
-  `;
+  assignmentsDiv.innerHTML = <h3>${chapterSelect.value}</h3>;
+  assignmentsDiv.innerHTML += <p>${data.notes}</p>;
 
-  Object.keys(chapter.assignments)
-    .sort((a,b) => b.localeCompare(a))
+  Object.keys(data.assignments)
+    .sort((a, b) => b.localeCompare(a))
     .forEach(date => {
-      content.innerHTML += `<p><b>${date}</b>: ${chapter.assignments[date]}</p>`;
+      assignmentsDiv.innerHTML += <p><b>${date}</b>: ${data.assignments[date]}</p>;
     });
 };
