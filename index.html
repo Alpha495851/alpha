@@ -21,7 +21,6 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--cream); color:var(--dark); }
 
-  /* STRIP */
   .strip {
     background:linear-gradient(90deg,#E8671A,#FF6B35);
     color:#fff; text-align:center;
@@ -29,12 +28,11 @@
   }
   .strip em { background:rgba(255,255,255,.22); padding:2px 8px; border-radius:4px; font-style:normal; }
 
-  /* HEADER */
   header {
     background:#fff; padding:10px 18px;
     display:flex; align-items:center; justify-content:space-between;
     box-shadow:0 2px 10px rgba(0,0,0,.08);
-    position:sticky; top:0; z-index:200;
+    /* NO sticky on header either — keeps things simple */
   }
   .logo img { height:42px; object-fit:contain; }
   .cart-icon {
@@ -54,48 +52,44 @@
     display:flex; align-items:center; justify-content:center;
   }
 
-  /* WRAP */
   .wrap { max-width:960px; margin:0 auto; padding:20px 14px 50px; }
 
-  /* PRODUCT GRID */
+  /* ── LAYOUT: stack on mobile, side-by-side on wide ── */
   .pg {
     display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:24px;
-    align-items:start;
+    grid-template-columns:1fr;
+    gap:20px;
   }
-  @media(max-width:640px){
-    .pg { grid-template-columns:1fr; gap:18px; }
+  @media(min-width:720px){
+    .pg { grid-template-columns:1fr 1fr; gap:26px; }
   }
 
-  /* ── GALLERY ── */
-  /* Sticky only on desktop */
+  /* ── GALLERY: always static, never sticky ── */
   .gallery { position:static; }
-  @media(min-width:641px){
-    .gallery { position:sticky; top:74px; }
-  }
 
   .main-img-wrap {
     border-radius:20px; overflow:hidden;
     background:#fff;
     box-shadow:0 8px 30px rgba(0,0,0,.12);
     margin-bottom:11px;
+    width:100%;
     aspect-ratio:1/1;
     position:relative;
   }
   .main-img-wrap img {
     width:100%; height:100%;
-    object-fit:cover;
+    object-fit:cover; display:block;
     transition:transform .4s ease;
-    display:block;
   }
   .main-img-wrap:hover img { transform:scale(1.04); }
+
   .bs-badge {
     position:absolute; top:13px; left:13px;
     background:linear-gradient(135deg,var(--orange),#FF6B35);
     color:#fff; font-size:11px; font-weight:800;
     padding:5px 12px; border-radius:20px;
     box-shadow:0 4px 12px rgba(244,123,32,.5);
+    z-index:2;
   }
   .off-badge {
     position:absolute; top:13px; right:13px;
@@ -104,7 +98,7 @@
     width:52px; height:52px; border-radius:50%;
     display:flex; align-items:center; justify-content:center;
     box-shadow:0 4px 14px rgba(229,57,53,.45);
-    flex-direction:column; line-height:1.15;
+    flex-direction:column; line-height:1.15; z-index:2;
   }
   .off-badge span { font-size:9px; font-weight:700; }
 
@@ -126,14 +120,13 @@
   }
   .trust-item { font-size:11.5px; color:var(--gray); font-weight:600; display:flex; align-items:center; gap:4px; }
 
-  /* ── INFO ── */
+  /* ── PRODUCT INFO ── */
   .cat-tag {
     display:inline-block;
     background:var(--pink); color:var(--orange);
     font-size:11px; font-weight:800;
     padding:4px 13px; border-radius:20px;
-    text-transform:uppercase; letter-spacing:1px;
-    margin-bottom:10px;
+    text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;
   }
   .ptitle { font-size:22px; font-weight:900; line-height:1.25; margin-bottom:7px; }
   .psub { font-size:13.5px; color:var(--gray); margin-bottom:13px; line-height:1.6; }
@@ -142,7 +135,6 @@
   .rcnt { font-size:12.5px; color:var(--gray); }
   .sold { font-size:11.5px; background:#E8F5E9; color:var(--green); padding:3px 9px; border-radius:10px; font-weight:700; }
 
-  /* PRICE BOX */
   .price-box {
     background:#fff; border-radius:18px; padding:16px;
     margin-bottom:14px;
@@ -157,12 +149,10 @@
   .save-txt { font-size:13px; color:var(--green); font-weight:700; }
   .tax-note { font-size:11.5px; color:var(--gray); margin-top:4px; }
 
-  /* TIMER */
   .timer-box {
     background:linear-gradient(135deg,#FFF3E0,#FFE8CC);
     border-radius:14px; padding:12px 14px;
-    border-left:4px solid var(--orange);
-    margin-bottom:14px;
+    border-left:4px solid var(--orange); margin-bottom:14px;
   }
   .tlbl { font-size:11px; font-weight:800; color:var(--orange-dark); text-transform:uppercase; letter-spacing:.5px; margin-bottom:8px; }
   .tdisp { display:flex; gap:7px; align-items:center; }
@@ -176,7 +166,6 @@
   .tlb2 { display:block; font-size:9px; text-transform:uppercase; letter-spacing:.5px; opacity:.85; margin-top:2px; }
   .tsep { font-size:22px; font-weight:900; color:var(--orange); }
 
-  /* STOCK */
   .stock-wrap { margin-bottom:15px; }
   .stock-labels { display:flex; justify-content:space-between; font-size:12px; margin-bottom:5px; }
   .urgnt { color:var(--red); font-weight:800; }
@@ -184,12 +173,10 @@
   .sfill { background:linear-gradient(90deg,var(--orange),#FF6B35); height:100%; width:78%; border-radius:10px; }
   .sfoot { font-size:11.5px; color:var(--gray); margin-top:4px; }
 
-  /* INCLUDES */
   .inc-title { font-size:13.5px; font-weight:800; margin-bottom:9px; }
   .inc-grid { display:grid; grid-template-columns:1fr 1fr; gap:7px; margin-bottom:17px; }
   .inc-item {
-    background:#fff; border-radius:11px;
-    padding:9px 10px;
+    background:#fff; border-radius:11px; padding:9px 10px;
     display:flex; align-items:center; gap:7px;
     font-size:12.5px; font-weight:600;
     box-shadow:0 2px 8px rgba(0,0,0,.05);
@@ -197,7 +184,6 @@
   }
   .iico { font-size:17px; }
 
-  /* BUTTONS */
   .btn-buy {
     display:block; width:100%; padding:15px;
     background:linear-gradient(135deg,var(--orange),#FF6B35);
@@ -206,7 +192,7 @@
     box-shadow:0 8px 24px rgba(244,123,32,.45);
     margin-bottom:10px; transition:.2s; letter-spacing:.3px;
   }
-  .btn-buy:hover { transform:translateY(-2px); box-shadow:0 14px 32px rgba(244,123,32,.55); }
+  .btn-buy:hover { transform:translateY(-2px); }
   .btn-buy:active { transform:scale(.97); }
   .btn-cart {
     display:block; width:100%; padding:14px;
@@ -215,26 +201,24 @@
     font-size:16px; font-weight:800; cursor:pointer;
     margin-bottom:16px; transition:.2s;
   }
-  .btn-cart:hover { background:var(--orange-light); transform:translateY(-1px); }
+  .btn-cart:hover { background:var(--orange-light); }
   .btn-cart:active { transform:scale(.97); }
 
   .perks { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
   .perk { font-size:12px; color:var(--gray); font-weight:600; display:flex; align-items:center; gap:5px; }
 
-  /* TOAST */
   .toast {
     position:fixed; bottom:24px; left:50%;
-    transform:translateX(-50%) translateY(80px);
+    transform:translateX(-50%) translateY(100px);
     background:var(--dark); color:#fff;
     padding:12px 22px; border-radius:14px;
     font-size:14px; font-weight:700;
-    box-shadow:0 8px 24px rgba(0,0,0,.25);
-    z-index:999; transition:.35s cubic-bezier(.4,0,.2,1);
-    white-space:nowrap;
+    box-shadow:0 8px 24px rgba(0,0,0,.3);
+    z-index:9999; transition:.35s cubic-bezier(.4,0,.2,1);
+    white-space:nowrap; pointer-events:none;
   }
   .toast.show { transform:translateX(-50%) translateY(0); }
 
-  /* SECTIONS */
   .section { margin-top:30px; }
   .sec-title {
     font-size:19px; font-weight:900; color:var(--dark);
@@ -254,7 +238,6 @@
   }
   .feat-list li:last-child { border:none; }
 
-  /* REVIEWS */
   .rev-summary {
     background:#fff; border-radius:20px;
     padding:18px; margin-bottom:14px;
@@ -291,7 +274,6 @@
   .rv-txt { font-size:13.5px; line-height:1.65; color:var(--dark); }
   .rv-emo { font-size:19px; margin-top:7px; }
 
-  /* CTA */
   .cta-block {
     background:linear-gradient(135deg,var(--orange),#FF6B35);
     border-radius:24px; padding:28px 20px;
@@ -317,7 +299,6 @@
   }
   .btn-cta:hover { transform:translateY(-2px); }
 
-  /* FOOTER */
   footer {
     background:var(--dark); color:#fff;
     text-align:center; padding:22px 16px; font-size:13px;
@@ -342,12 +323,12 @@
   </button>
 </header>
 
-<div class="toast" id="toast">🎉 Added to Cart!</div>
+<div class="toast" id="toast"></div>
 
 <div class="wrap">
   <div class="pg">
 
-    <!-- GALLERY — sticky only on desktop -->
+    <!-- GALLERY — position:static always, never sticky -->
     <div class="gallery">
       <div class="main-img-wrap">
         <img id="mainImg"
@@ -421,49 +402,4 @@
         <div class="inc-item"><span class="iico">🦪</span>Live Oyster Pearl</div>
         <div class="inc-item"><span class="iico">📿</span>Pearl Necklace</div>
         <div class="inc-item"><span class="iico">💝</span>Heart Jewel Box</div>
-        <div class="inc-item"><span class="iico">🎀</span>Premium Gift Box</div>
-        <div class="inc-item"><span class="iico">💍</span>Cage Pendant</div>
-        <div class="inc-item"><span class="iico">📜</span>Wish Card</div>
-      </div>
-
-      <button class="btn-buy" onclick="buyNow()">🛒 Buy Now — Only ₹699!</button>
-      <button class="btn-cart" onclick="addToCart()">🛍️ Add to Cart</button>
-
-      <div class="perks">
-        <div class="perk">🚚 Free Delivery</div>
-        <div class="perk">↩️ Easy Returns</div>
-        <div class="perk">🔒 Secure Payment</div>
-        <div class="perk">🎁 Gift Wrapped</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- DESCRIPTION -->
-  <div class="section">
-    <div class="sec-title">About This Gift</div>
-    <div class="desc-card">
-      <p class="desc-text">
-        The <strong>Love Pearl Oyster Gift Set</strong> is the ultimate romantic surprise — a real freshwater pearl hidden inside a live oyster, beautifully presented in a heart-shaped velvet jewel box. Open the sealed oyster can to discover your unique pearl, then place it into the elegant silver cage pendant to wear as a necklace. No two pearls are alike, making every gift truly one-of-a-kind. 💕
-      </p>
-      <ul class="feat-list">
-        <li>✨ <span><strong>Real Freshwater Pearl</strong> — authentic & unique, nature's own surprise inside every can</span></li>
-        <li>💝 <span><strong>Heart-Shaped Velvet Jewelry Box</strong> — luxurious black velvet display, gift-ready from day one</span></li>
-        <li>📿 <span><strong>Silver Cage Pendant & Chain</strong> — slip your pearl in and wear it immediately after unboxing</span></li>
-        <li>🌸 <span><strong>Premium Pink Gift Box</strong> — beautifully packaged, zero extra wrapping needed</span></li>
-        <li>🎉 <span><strong>Perfect for Birthdays, Anniversaries & Valentine's Day</strong> — the wow-factor gift every time</span></li>
-        <li>💌 <span><strong>Personalized Wish Card</strong> — add your heartfelt message for that personal touch</span></li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- REVIEWS -->
-  <div class="section">
-    <div class="sec-title">💬 Customer Reviews</div>
-    <div class="rev-summary">
-      <div class="big-r">
-        <div class="big-num">4.9</div>
-        <div class="big-stars">⭐⭐⭐⭐⭐</div>
-        <div class="big-cnt">247 verified reviews</div>
-      </div>
-      <div class="rbar-wrap">
-        <div class="rbar-row"><span class="rbl">5 ⭐</span><d
+        <div class="inc-item"><span class="iico">🎀
